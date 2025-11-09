@@ -140,6 +140,11 @@
   gap: 6px;
   white-space: nowrap;
 }
+@media print {
+  @page {
+    margin: 0;
+  }
+}
 
 
 </style>
@@ -319,6 +324,7 @@
    style="
      display:none;
      width: 794px;       /* ← A4の幅に相当 */
+	 min-height: 1150px;
      padding:80px 40px; 
      font-size: 24px;    /* PDF用の文字サイズ（自由に調整OK） */
      line-height: 1.6;
@@ -480,7 +486,7 @@ document.getElementById("pdf_toilet").innerText = toilet.join("・");
     const target = document.getElementById("pdfContent");
     target.style.display = "block"; // 一時表示
 
-    const canvas = await html2canvas(target, { scale: 2 });
+   const canvas = await html2canvas(target, { scale: 2, useCORS: true });
 const imgData = canvas.toDataURL("image/png");
 
 const pdf = new jsPDF("p", "mm", "a4");
@@ -498,7 +504,7 @@ let position = 0;
 pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
 heightLeft -= pageHeight;
 
-// 2ページ目以降
+// ページ分割（境界が太くならない調整）
 while (heightLeft > 0) {
   pdf.addPage();
   position -= pageHeight;
@@ -507,7 +513,6 @@ while (heightLeft > 0) {
 }
 
 pdf.save("thumbelina_record.pdf");
-
 
     target.style.display = "none"; // 再び隠す
   }

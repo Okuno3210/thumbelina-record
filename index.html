@@ -118,16 +118,22 @@
 
   <form id="recordForm">
     <div class="card">
-      <div class="row">
-        <div class="field">
-          <label for="name">お名前</label>
-          <input id="name" name="name" type="text" placeholder="ペットのお名前">
-        </div>
-        <div class="field">
-          <label for="date">実施日時</label>
-          <input id="date" name="date" type="datetime-local">
-        </div>
-      </div>
+		<div class="row">
+		  <div class="field">
+		    <label for="name">お名前</label>
+		    <input id="name" name="name" type="text" placeholder="ペットのお名前">
+		  </div>
+
+		  <div class="field">
+		    <label for="enter_time">入室時間</label>
+		    <input id="enter_time" name="enter_time" type="datetime-local">
+		  </div>
+
+		  <div class="field">
+		    <label for="exit_time">退室時間</label>
+		    <input id="exit_time" name="exit_time" type="datetime-local">
+		  </div>
+		</div>
     </div>
 
     <div class="card">
@@ -280,7 +286,8 @@
 
 	  <h2>サービス実施記録（PDF版）</h2>
 	  <p><strong>お名前：</strong> <span id="pdf_name"></span></p>
-	  <p><strong>実施日時：</strong> <span id="pdf_date"></span></p>
+	  <p><strong>入室時間：</strong> <span id="pdf_enter_time"></span></p>
+	  <p><strong>退室時間：</strong> <span id="pdf_exit_time"></span></p>
 
 	  <h3>天候・環境</h3>
 	  <p><strong>天候：</strong> <span id="pdf_weather"></span></p>
@@ -316,13 +323,16 @@
 
     // ✅ 入力内容をPDF専用領域に流し込む
     document.getElementById("pdf_name").innerText = document.getElementById("name").value;
-    document.getElementById("pdf_date").innerText = document.getElementById("date").value;
+	// ✅ 入室・退室
+	document.getElementById("pdf_enter_time").innerText = document.getElementById("enter_time").value;
+	document.getElementById("pdf_exit_time").innerText = document.getElementById("exit_time").value;
+
 
     // 天候
     let weather = [];
-    if (weather_sunny.checked) weather.push("晴れ");
-    if (weather_cloudy.checked) weather.push("くもり");
-    if (weather_rainy.checked) weather.push("雨");
+	if (document.getElementById("weather_sunny").checked) weather.push("晴れ");
+	if (document.getElementById("weather_cloudy").checked) weather.push("くもり");
+	if (document.getElementById("weather_rainy").checked) weather.push("雨");
     document.getElementById("pdf_weather").innerText = weather.join("・");
 
     document.getElementById("pdf_temp_out").innerText = document.getElementById("temp_out").value + "℃";

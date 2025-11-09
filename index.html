@@ -111,15 +111,36 @@
     .btn-primary { display: none; }
     .card { box-shadow: none; border-color: #bbb; }
   }
-	 #pdfContent p {
-    display: flex;
-    gap: 12px;
-    flex-wrap: nowrap;
-  }
 	#pdf_memo {
   display: block;
   white-space: pre-wrap;
+  line-height: 1.6;
 }
+	.pdf-weather-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;   /* 好みで調整してOK */
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+.pdf-weather-row div {
+  display: flex;
+  gap: 6px;
+  white-space: nowrap; /* 改行防止 */
+}
+	.pdf-two-row {
+  display: flex;
+  gap: 40px;      /* 間隔は自由に調整OK */
+  align-items: center;
+  margin-bottom: 20px;
+}
+.pdf-two-row div {
+  display: flex;
+  gap: 6px;
+  white-space: nowrap;
+}
+
 
 </style>
 </head>
@@ -276,6 +297,8 @@
           <span class="chip"><input type="radio" id="topical_none" name="topical" value="なし"><label for="topical_none">塗布薬：なし</label></span>
           <span class="chip"><input type="radio" id="nail_done" name="nail" value="実施"><label for="nail_done">爪切り：実施</label></span>
           <span class="chip"><input type="radio" id="nail_none" name="nail" value="未実施"><label for="nail_none">爪切り：未実施</label></span>
+		  <span class="chip"><input type="radio" id="tooth_done" name="tooth" value="実施"><label for="tooth_done">歯磨き：実施</label></span>
+          <span class="chip"><input type="radio" id="tooth_none" name="tooth" value="未実施"><label for="tooth_none">歯磨き：未実施</label></span>
         </div>
       </div>
     </div>
@@ -296,7 +319,7 @@
    style="
      display:none;
      width: 794px;       /* ← A4の幅に相当 */
-     padding: 40px;
+     padding:80px 40px; 
      font-size: 30px;    /* PDF用の文字サイズ（自由に調整OK） */
      line-height: 1.6;
    ">
@@ -307,10 +330,12 @@
 	  <p><strong>退室時間：</strong> <span id="pdf_exit_time"></span></p>
 
 	  <h3>天候・環境</h3>
-	  <p><strong>天候：</strong> <span id="pdf_weather"></span></p>
-	  <p><strong>外気温：</strong> <span id="pdf_temp_out"></span></p>
-	  <p><strong>室温：</strong> <span id="pdf_temp_in"></span></p>
-	  <p><strong>湿度：</strong> <span id="pdf_humidity"></span></p>
+	  <div class="pdf-weather-row">
+       <div><strong>天候：</strong><span id="pdf_weather"></span></div>
+       <div><strong>外気温：</strong><span id="pdf_temp_out"></span></div>
+       <div><strong>室温：</strong><span id="pdf_temp_in"></span></div>
+       <div><strong>湿度：</strong><span id="pdf_humidity"></span></div>
+      </div>
 
 	  <h3>サービスの種類</h3>
 	  <p id="pdf_service"></p>
@@ -327,11 +352,19 @@
 
 	  <h3>ケア</h3>
 	  <p><strong>お散歩：</strong> <span id="pdf_walk"></span></p>
-	  <p><strong>ブラッシング：</strong> <span id="pdf_brush"></span></p>
-	  <p><strong>抜け毛：</strong> <span id="pdf_fur"></span></p>
-	  <p><strong>服薬：</strong> <span id="pdf_meds"></span></p>
-	  <p><strong>塗布薬：</strong> <span id="pdf_topical"></span></p>
-	  <p><strong>爪切り：</strong> <span id="pdf_nail"></span></p>
+	  <div class="pdf-two-row">
+       <div><strong>ブラッシング：</strong><span id="pdf_brush"></span></div>
+       <div><strong>抜け毛：</strong><span id="pdf_fur"></span></div>
+      </div>
+	  <div class="pdf-two-row">
+       <div><strong>服薬：</strong><span id="pdf_meds"></span></div>
+       <div><strong>塗布薬：</strong><span id="pdf_topical"></span></div>
+      </div>
+	  <div class="pdf-two-row">
+       <div><strong>爪切り：</strong><span id="pdf_nail"></span></div>
+       <div><strong>歯磨き：</strong><span id="pdf_tooth"></span></div>
+      </div>
+
 
 	  <h3>MEMO</h3>
 	  <p id="pdf_memo"></p>
@@ -434,6 +467,11 @@ document.getElementById("pdf_toilet").innerText = toilet.join("・");
 	  const nail = document.querySelector("input[name='nail']:checked");
 	  document.getElementById("pdf_nail").innerText =
 	    nail ? nail.nextElementSibling.innerText : "";
+	  
+	  const tooth = document.querySelector("input[name='tooth']:checked");
+      document.getElementById("pdf_tooth").innerText =
+      tooth ? tooth.nextElementSibling.innerText : "";
+
   
     // MEMO
     document.getElementById("pdf_memo").innerText = document.getElementById("memo").value;

@@ -182,9 +182,9 @@
         <div class="field">
           <label>おしっこ</label>
           <div class="inline">
-            <span class="group"><input type="radio" id="pee_low" name="pee" value="少"><label for="pee_low">少</label></span>
-            <span class="group"><input type="radio" id="pee_mid" name="pee" value="中"><label for="pee_mid">中</label></span>
-            <span class="group"><input type="radio" id="pee_high" name="pee" value="多"><label for="pee_high">多</label></span>
+            <span class="group"><input type="radio" id="pee_low" name="pee" value="少量"><label for="pee_low">少量</label></span>
+            <span class="group"><input type="radio" id="pee_mid" name="pee" value="中量"><label for="pee_mid">中量</label></span>
+            <span class="group"><input type="radio" id="pee_high" name="pee" value="多量"><label for="pee_high">多量</label></span>
             <span class="group"><input type="radio" id="pee_none" name="pee" value="なし"><label for="pee_none">なし</label></span>
             <input type="text" id="pee_note" name="pee_note" placeholder="メモ（色・回数など）">
           </div>
@@ -193,9 +193,9 @@
         <div class="field">
           <label>うんち</label>
           <div class="inline">
-            <span class="group"><input type="radio" id="poo_low" name="poo" value="少"><label for="poo_low">少</label></span>
-            <span class="group"><input type="radio" id="poo_mid" name="poo" value="中"><label for="poo_mid">中</label></span>
-            <span class="group"><input type="radio" id="poo_high" name="poo" value="多"><label for="poo_high">多</label></span>
+            <span class="group"><input type="radio" id="poo_low" name="poo" value="少量"><label for="poo_low">少量</label></span>
+            <span class="group"><input type="radio" id="poo_mid" name="poo" value="中量"><label for="poo_mid">中量</label></span>
+            <span class="group"><input type="radio" id="poo_high" name="poo" value="多量"><label for="poo_high">多量</label></span>
             <span class="group"><input type="radio" id="poo_none" name="poo" value="なし"><label for="poo_none">なし</label></span>
             <input type="text" id="poo_note" name="poo_note" placeholder="メモ（状態・回数など）">
           </div>
@@ -226,8 +226,8 @@
         <div class="field">
           <label>おやつ</label>
           <div class="inline">
-            <span class="group"><input type="radio" id="snack_none" name="snack" value="与えていない"><label for="snack_none">与えていない</label></span>
-            <span class="group"><input type="radio" id="snack_all"  name="snack" value="完食"><label for="snack_all">完食</label></span>
+			<span class="group"><input type="radio" id="snack_all"  name="snack" value="あり"><label for="snack_all">あり</label></span>
+            <span class="group"><input type="radio" id="snack_none" name="snack" value="なし"><label for="snack_none">なし</label></span>
             <input type="text" id="snack_note" name="snack_note" placeholder="内容・量など">
           </div>
         </div>
@@ -254,9 +254,9 @@
           <span class="chip"><input type="radio" id="brush_no"  name="brush" value="未実施"><label for="brush_no">ブラッシング：未実施</label></span>
           <span class="group" style="margin-left:6px;">
             <span class="muted">抜け毛の量</span>
-            <span class="group"><input type="radio" id="fur_low" name="fur" value="少"><label for="fur_low">少</label></span>
-            <span class="group"><input type="radio" id="fur_mid" name="fur" value="中"><label for="fur_mid">中</label></span>
-            <span class="group"><input type="radio" id="fur_high" name="fur" value="多"><label for="fur_high">多</label></span>
+            <span class="group"><input type="radio" id="fur_low" name="fur" value="少量"><label for="fur_low">少量</label></span>
+            <span class="group"><input type="radio" id="fur_mid" name="fur" value="中量"><label for="fur_mid">中量</label></span>
+            <span class="group"><input type="radio" id="fur_high" name="fur" value="多量"><label for="fur_high">多量</label></span>
           </span>
         </div>
         <div class="inline">
@@ -284,7 +284,7 @@
 	<!-- ✅ PDF用の非表示領域 -->
 	<div id="pdfContent" style="display:none; padding:20px; font-size:14px; line-height:1.6;">
 
-	  <h2>サービス実施記録（PDF版）</h2>
+	  <h2>サービス実施記録</h2>
 	  <p><strong>お名前：</strong> <span id="pdf_name"></span></p>
 	  <p><strong>入室時間：</strong> <span id="pdf_enter_time"></span></p>
 	  <p><strong>退室時間：</strong> <span id="pdf_exit_time"></span></p>
@@ -307,6 +307,14 @@
 	  <p><strong>ごはん：</strong> <span id="pdf_food"></span></p>
 	  <p><strong>おやつ：</strong> <span id="pdf_snack"></span></p>
 	  <p><strong>お水：</strong> <span id="pdf_water"></span></p>
+
+	  <h3>ケア</h3>
+	  <p><strong>お散歩：</strong> <span id="pdf_walk"></span></p>
+	  <p><strong>ブラッシング：</strong> <span id="pdf_brush"></span></p>
+	  <p><strong>抜け毛：</strong> <span id="pdf_fur"></span></p>
+	  <p><strong>服薬：</strong> <span id="pdf_meds"></span></p>
+	  <p><strong>塗布薬：</strong> <span id="pdf_topical"></span></p>
+	  <p><strong>爪切り：</strong> <span id="pdf_nail"></span></p>
 
 	  <h3>MEMO</h3>
 	  <p id="pdf_memo"></p>
@@ -383,6 +391,31 @@
       (water ? water.nextElementSibling.innerText : "") +
       " " + document.getElementById("water_note").value;
 
+	  // ケア
+	  const walk = document.querySelector("input[name='walk']:checked");
+	  document.getElementById("pdf_walk").innerText =
+	    walk ? walk.nextElementSibling.innerText : "";
+
+	  const brush = document.querySelector("input[name='brush']:checked");
+	  document.getElementById("pdf_brush").innerText =
+	    brush ? brush.nextElementSibling.innerText : "";
+
+	  const fur = document.querySelector("input[name='fur']:checked");
+	  document.getElementById("pdf_fur").innerText =
+	    fur ? fur.nextElementSibling.innerText : "";
+
+	  const meds = document.querySelector("input[name='meds']:checked");
+	  document.getElementById("pdf_meds").innerText =
+	    meds ? meds.nextElementSibling.innerText : "";
+
+	  const topical = document.querySelector("input[name='topical']:checked");
+	  document.getElementById("pdf_topical").innerText =
+	    topical ? topical.nextElementSibling.innerText : "";
+
+	  const nail = document.querySelector("input[name='nail']:checked");
+	  document.getElementById("pdf_nail").innerText =
+	    nail ? nail.nextElementSibling.innerText : "";
+  
     // MEMO
     document.getElementById("pdf_memo").innerText = document.getElementById("memo").value;
 

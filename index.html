@@ -282,7 +282,15 @@
       PDFとして保存
     </button>
 	<!-- ✅ PDF用の非表示領域 -->
-	<div id="pdfContent" style="display:none; padding:20px; width: 780px;　font-size:30px; line-height:1.6;">
+	<div id="pdfContent"
+   style="
+     display:none;
+     width: 794px;       /* ← A4の幅に相当 */
+     min-height: 1123px; /* ← A4の高さに相当 */
+     padding: 40px;
+     font-size: 30px;    /* PDF用の文字サイズ（自由に調整OK） */
+     line-height: 1.6;
+   ">
 
 	  <h2>サービス実施記録</h2>
 	  <p><strong>お名前：</strong> <span id="pdf_name"></span></p>
@@ -366,18 +374,20 @@
       " " + document.getElementById("poo_note").value;
 
     let toilet = [];
-    if (toilet_clean_yes.checked) toilet.push("トイレ掃除:実施");
-    if (toilet_clean_no.checked) toilet.push("トイレ掃除:未実施");
-    if (sheet_yes.checked) toilet.push("シート交換:あり");
-    if (sheet_no.checked) toilet.push("シート交換:なし");
-    if (sand_yes.checked) toilet.push("砂の補充:あり");
-    if (sand_no.checked) toilet.push("砂の補充:なし");
-    document.getElementById("pdf_toilet").innerText = toilet.join("・");
+
+if (document.getElementById("toilet_clean_yes").checked) toilet.push("トイレ掃除:実施");
+if (document.getElementById("toilet_clean_no").checked) toilet.push("トイレ掃除:未実施");
+if (document.getElementById("sheet_yes").checked) toilet.push("シート交換:あり");
+if (document.getElementById("sheet_no").checked) toilet.push("シート交換:なし");
+if (document.getElementById("sand_yes").checked) toilet.push("砂の補充:あり");
+if (document.getElementById("sand_no").checked) toilet.push("砂の補充:なし");
+
+document.getElementById("pdf_toilet").innerText = toilet.join("・");
 
     // 食事
     let food = [];
-    if (food_dry.checked) food.push("ドライ");
-    if (food_wet.checked) food.push("ウェット");
+    if (document.getElementById("food_dry").checked) food.push("ドライ");
+    if (document.getElementById("food_wet").checked) food.push("ウェット");
     let foodNote = document.getElementById("food_note").value;
     document.getElementById("pdf_food").innerText = food.join("・") + " " + foodNote;
 
@@ -427,12 +437,10 @@
     const imgData = canvas.toDataURL("image/png");
 
     const pdf = new jsPDF("p", "mm", "a4");
-    const pdfWidth = 210;
-    const pdfHeight = 297;
+	const imgWidth = 210; // A4幅(mm)
+	const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-    const ratio = Math.min(pdfWidth / canvas.width, pdfHeight / canvas.height);
-
-    pdf.addImage(imgData, "PNG", 0, 0, canvas.width * ratio, canvas.height * ratio);
+    pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
 
     pdf.save("thumbelina_record.pdf");
 

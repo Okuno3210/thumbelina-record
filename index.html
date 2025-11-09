@@ -312,25 +312,37 @@
       [(water ? water.nextElementSibling.innerText : ""), document.getElementById("water_note").value].filter(Boolean).join(" ");
 
     const walk = document.querySelector("input[name='walk']:checked");
-    document.getElementById("pdf2_walk").innerText = walk ? walk.nextElementSibling.innerText : "";
+	  let walkText = walk ? walk.nextElementSibling.innerText : "";
+  	walkText = walkText.replace("お散歩：", "");  // 重複部分を削除
+  	document.getElementById("pdf2_walk").innerText = walkText;
 
     const brush = document.querySelector("input[name='brush']:checked");
-    document.getElementById("pdf2_brush").innerText = brush ? brush.nextElementSibling.innerText : "";
+  	let brushText = brush ? brush.nextElementSibling.innerText : "";
+	  brushText = brushText.replace("ブラッシング：", "");
+  	document.getElementById("pdf2_brush").innerText = brushText;
 
     const fur = document.querySelector("input[name='fur']:checked");
     document.getElementById("pdf2_fur").innerText = fur ? fur.nextElementSibling.innerText : "";
 
     const meds = document.querySelector("input[name='meds']:checked");
-    document.getElementById("pdf2_meds").innerText = meds ? meds.nextElementSibling.innerText : "";
-
+  	let medsText = meds ? meds.nextElementSibling.innerText : "";
+  	medsText = medsText.replace("服薬：", "");
+  	document.getElementById("pdf2_meds").innerText = medsText;
+    
     const topical = document.querySelector("input[name='topical']:checked");
-    document.getElementById("pdf2_topical").innerText = topical ? topical.nextElementSibling.innerText : "";
+	  let topicalText = topical ? topical.nextElementSibling.innerText : "";
+  	topicalText = topicalText.replace("塗布薬：", "");
+  	document.getElementById("pdf2_topical").innerText = topicalText;
 
     const nail = document.querySelector("input[name='nail']:checked");
-    document.getElementById("pdf2_nail").innerText = nail ? nail.nextElementSibling.innerText : "";
+  	let nailText = nail ? nail.nextElementSibling.innerText : "";
+  	nailText = nailText.replace("爪切り：", "");
+	  document.getElementById("pdf2_nail").innerText = nailText;
 
     const tooth = document.querySelector("input[name='tooth']:checked");
-    document.getElementById("pdf2_tooth").innerText = tooth ? tooth.nextElementSibling.innerText : "";
+  	let toothText = tooth ? tooth.nextElementSibling.innerText : "";
+  	toothText = toothText.replace("歯磨き：", "");
+  	document.getElementById("pdf2_tooth").innerText = toothText;
 
     document.getElementById("pdf2_memo").innerText = document.getElementById("memo").value || "";
 
